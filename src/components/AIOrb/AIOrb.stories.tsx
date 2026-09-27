@@ -1,6 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
+import type {
+  Meta,
+  StoryObj,
+} from '@storybook/react-native-web-vite';
 import React from 'react';
-import { Text, View } from 'react-native';
+import {
+  Text,
+  View,
+} from 'react-native';
 
 import {
   COLORS,
@@ -12,84 +18,137 @@ import { AIOrb } from './AIOrb';
 const meta = {
   title: 'AI/AIOrb',
   component: AIOrb,
+
   parameters: {
     layout: 'centered',
+
     docs: {
       description: {
         component:
-          'Reusable AI visual identity primitive with semantic sizes and generic visual states.',
+          'Living AI identity primitive with organic shape, ambient motion, semantic states, orbiting particles, facial micro-interactions, and reduced-motion support.',
       },
     },
   },
+
   args: {
     size: 'medium',
     state: 'idle',
     showFace: true,
     showOrbit: true,
-    accessibilityLabel: 'AI assistant',
+    animated: true,
+    accessibilityLabel:
+      'AI assistant',
   },
+
   argTypes: {
     size: {
       control: 'select',
-      options: ['avatar', 'medium', 'hero'],
+      options: [
+        'avatar',
+        'medium',
+        'hero',
+      ],
     },
+
     state: {
       control: 'select',
-      options: ['idle', 'ready', 'thinking', 'success', 'error'],
+      options: [
+        'idle',
+        'ready',
+        'thinking',
+        'success',
+        'error',
+      ],
     },
-    showFace: { control: 'boolean' },
-    showOrbit: { control: 'boolean' },
+
+    showFace: {
+      control: 'boolean',
+    },
+
+    showOrbit: {
+      control: 'boolean',
+    },
+
+    animated: {
+      control: 'boolean',
+    },
+
+    reduceMotion: {
+      control: 'boolean',
+    },
   },
 } satisfies Meta<typeof AIOrb>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+
+type Story =
+  StoryObj<typeof meta>;
 
 export const Playground: Story = {};
 
-export const Avatar: Story = {
-  args: { size: 'avatar' },
-};
-
-export const Medium: Story = {
-  args: { size: 'medium' },
-};
-
-export const Hero: Story = {
-  args: { size: 'hero' },
-};
-
-export const Idle: Story = {
-  args: { state: 'idle' },
-};
-
-export const Ready: Story = {
-  args: { state: 'ready' },
+export const LivingHero: Story = {
+  args: {
+    size: 'hero',
+    state: 'ready',
+    animated: true,
+  },
 };
 
 export const Thinking: Story = {
-  args: { state: 'thinking' },
+  args: {
+    size: 'hero',
+    state: 'thinking',
+  },
 };
 
 export const Success: Story = {
-  args: { state: 'success' },
+  args: {
+    size: 'hero',
+    state: 'success',
+  },
 };
 
 export const Error: Story = {
-  args: { state: 'error' },
+  args: {
+    size: 'hero',
+    state: 'error',
+  },
 };
 
-const states = ['idle', 'ready', 'thinking', 'success', 'error'] as const;
+export const Static: Story = {
+  args: {
+    size: 'hero',
+    state: 'ready',
+    animated: false,
+  },
+};
+
+export const ReducedMotion: Story = {
+  args: {
+    size: 'hero',
+    state: 'ready',
+    animated: true,
+    reduceMotion: true,
+  },
+};
+
+const states = [
+  'idle',
+  'ready',
+  'thinking',
+  'success',
+  'error',
+] as const;
 
 export const AllStates: Story = {
   render: () => (
     <View
       style={{
-        maxWidth: 720,
+        maxWidth: 900,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: SPACING.SIZE_32,
         justifyContent: 'center',
+        gap: SPACING.SIZE_40,
       }}
     >
       {states.map(state => (
@@ -97,24 +156,59 @@ export const AllStates: Story = {
           key={state}
           style={{
             alignItems: 'center',
-            gap: SPACING.SIZE_08,
+            gap: SPACING.SIZE_12,
           }}
         >
           <AIOrb
             size="medium"
             state={state}
-            accessibilityLabel={`AI ${state}`}
+            animated={false}
+            accessibilityLabel={
+              `AI ${state}`
+            }
           />
+
           <Text
             style={{
               ...TYPOGRAPHY.labelM,
-              color: COLORS.text.secondary,
+              color:
+                COLORS.text.secondary,
             }}
           >
             {state}
           </Text>
         </View>
       ))}
+    </View>
+  ),
+};
+
+export const SizeScale: Story = {
+  render: () => (
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: SPACING.SIZE_48,
+      }}
+    >
+      <AIOrb
+        size="avatar"
+        state="ready"
+        accessibilityLabel="Avatar AI orb"
+      />
+
+      <AIOrb
+        size="medium"
+        state="ready"
+        accessibilityLabel="Medium AI orb"
+      />
+
+      <AIOrb
+        size="hero"
+        state="ready"
+        accessibilityLabel="Hero AI orb"
+      />
     </View>
   ),
 };
